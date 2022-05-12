@@ -7,10 +7,7 @@ final int red = color(237, 5, 9);
 Human[] humans;
 Virus virus;
 
-void setup() {
-  background(0);
-  size(800, 700);
-  frameRate(60);
+void init() {
   humans = new Human[100];
   for (int i = 0; i < humans.length; i++) {
     humans[i] = new Human();
@@ -18,9 +15,16 @@ void setup() {
   virus = new Virus();
 }
 
+void setup() {
+  background(0);
+  size(800, 700);
+  frameRate(60);
+  init();
+}
+
 void draw() {
-    background(0);
-    for (int i = 0; i < humans.length; i++) {
+  background(0);
+  for (int i = 0; i < humans.length; i++) {
     humans[i].step();
     humans[i].passEdges();
     humans[i].display();
@@ -48,7 +52,15 @@ void mouseClicked() {
 void keyPressed() {
   final int k = keyCode;
 
-  if (k == 'S')
-    if (looping)  noLoop();
-    else          loop();
+  if (k == 'S') {
+    if (looping){
+      noLoop();
+    }
+    else{
+      loop();
+    }
+  }
+  else if (k == 'R'){
+    init();
+  }
 }
