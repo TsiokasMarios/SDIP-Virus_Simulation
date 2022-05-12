@@ -4,12 +4,15 @@ public class Human {
   int size;
   int age;
   boolean isInfected;
+  float resistance;
 
   Human() {
     size = 10;
     location = new PVector(random(size/2, width-size/2), random(size/2, height-size/2));
     velocity = new PVector(random(-3, 3), random(-3, 3));
     isInfected = false;
+    age = (int) random(1,85);
+    resistance =  random(1,2) * age;
   }
 
   void step() {
@@ -32,10 +35,10 @@ public class Human {
     return isIntersecting;
   }
 
-  void infect(Human target) {
+  void transmit(Human target) {
     //Try to inffect the other human
     if (target != this)
-      target.isInfected = true;
+      virus.infect(target);
   }
 
 

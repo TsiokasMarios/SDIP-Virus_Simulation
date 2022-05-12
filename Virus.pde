@@ -1,5 +1,5 @@
 public class Virus{
-  float infectionRate = 0.3;
+  float infectionRate = 15;
   float lethality = 0.1;
   
   void randomInfect(Human[] humans){
@@ -7,6 +7,14 @@ public class Virus{
     
     humans[rand].isInfected = true;
     println("success");
+  }
+  
+  void infect(Human target) {
+    //Try to inffect the other human
+    if (target.resistance < virus.infectionRate){
+      println(target.resistance);
+      target.isInfected = true;
+    }
   }
   
   
