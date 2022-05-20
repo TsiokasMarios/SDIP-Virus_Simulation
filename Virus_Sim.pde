@@ -56,6 +56,7 @@ void draw() {
       //In the future compare it with when a human got infected
       if (frameCount % 500 == 0)
         virus.getSick(humans[i]);
+        humans[i].recover();
     }
   }
 }
