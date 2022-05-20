@@ -3,8 +3,10 @@ public class Human {
   PVector velocity;
   int size;
   int age;
-  boolean isInfected;
   float resistance;
+  float hygiene;
+  boolean isInfected;
+  boolean vaccinated;
 
   Human() {
     size = 10;
@@ -36,9 +38,13 @@ public class Human {
   }
 
   void transmit(Human target) {
-    //Try to inffect the other human
+    //Try to inffect the other human depending on a forumal
     if (target != this)
       virus.infect(target);
+  }
+  
+  void recover(){
+    //Will try to recover depending on a formula
   }
 
 

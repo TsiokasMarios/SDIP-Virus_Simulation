@@ -1,6 +1,7 @@
 public class Virus{
-  float infectionRate = 15;
+  float infectionRate = 20;
   float lethality = 0.1;
+  int[] ageTarget;
   
   void randomInfect(Human[] humans){
     int rand = (int) random(humans.length);
@@ -15,6 +16,16 @@ public class Virus{
       println(target.resistance);
       target.isInfected = true;
     }
+  }
+  
+  void getSick(Human target){
+    //Takes a human as an argument
+    //Depending on a formula it will try to make them sick
+  }
+  
+  void goToHospital(Hospital hospital){
+    //Will have a chance to go to the hospital if sick
+    //Or to get vaccinated
   }
   
   

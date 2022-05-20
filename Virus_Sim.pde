@@ -8,7 +8,7 @@ Human[] humans;
 Virus virus;
 
 void init() {
-  humans = new Human[100];
+  humans = new Human[200];
   for (int i = 0; i < humans.length; i++) {
     humans[i] = new Human();
   }
@@ -16,6 +16,7 @@ void init() {
 }
 
 void setup() {
+  surface.setResizable(true);
   background(0);
   size(800, 700);
   frameRate(60);
@@ -30,12 +31,14 @@ void draw() {
     humans[i].display();
 
     for (int j = 0; j < humans.length; j++) {
+      //Check if 2 humans interact
       if (i != j && humans[i].intersect(humans[j])) {
         //Check if either of the humans are infected
         if (humans[i].isInfected) {
           humans[i].transmit(humans[j]);
-        } else if (humans[j].isInfected) {
-          if (humans[j].isInfected);
+        } 
+        else if (humans[j].isInfected) {
+          humans[j].transmit(humans[i]);
           //If true try to infect the other human
         }
       }
