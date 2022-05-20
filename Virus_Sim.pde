@@ -1,18 +1,25 @@
+//Colors
 final int green = color(57, 227, 64);
 final int red = color(237, 5, 9);
+final int yellow = color(233,255,0);
+final int blue = color(0,185,255);
 
-
-//This is a test for git manager
+//Status a human can have
+static final int HEALTHY = 0;
+static final int INFECTED = 1;
+static final int SICK = 2;
+static final int RECOVERED = 3;
 
 Human[] humans;
 Virus virus;
 
+//Initialize the humans and virus
 void init() {
   humans = new Human[200];
   for (int i = 0; i < humans.length; i++) {
     humans[i] = new Human();
   }
-  virus = new Virus();
+  virus = new Virus(10,20);
 }
 
 void setup() {
@@ -34,14 +41,15 @@ void draw() {
       //Check if 2 humans interact
       if (i != j && humans[i].intersect(humans[j])) {
         //Check if either of the humans are infected
-        if (humans[i].isInfected) {
+        if (humans[i].status == INFECTED || humans[i].status == SICK ) {
           humans[i].transmit(humans[j]);
         } 
-        else if (humans[j].isInfected) {
+        else if (humans[j].status == INFECTED || humans[j].status == SICK) {
           humans[j].transmit(humans[i]);
           //If true try to infect the other human
         }
       }
+      virus.getSick(humans[i]);
     }
   }
 }
