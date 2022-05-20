@@ -62,6 +62,10 @@ public class Human {
   
   void recover(){
     //Will try to recover depending on a formula
+     if(status == SICK){
+         if(random(1)< 0.3)
+           status = RECOVERED;
+       }
   }
 
   //Change their color depending on their status
