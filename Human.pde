@@ -7,6 +7,9 @@ public class Human {
   float hygiene;
   int status;
   boolean vaccinated;
+
+  
+
   
   Human() {
     size = 10;
@@ -31,10 +34,11 @@ public class Human {
       immuneSystem = 0.2;
     else if (age > 80)
       immuneSystem = 0.1;
-    
+   
   }
 
   void step() {
+
     location.add(velocity);
   }
 
@@ -62,6 +66,10 @@ public class Human {
   
   void recover(){
     //Will try to recover depending on a formula
+       if(status == SICK){
+         if(random(1)< 0.3)
+           status = RECOVERED;
+       }
   }
 
   //Change their color depending on their status

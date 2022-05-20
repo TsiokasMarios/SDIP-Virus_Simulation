@@ -40,22 +40,17 @@ void draw() {
     for (int j = 0; j < humans.length; j++) {
       //Check if 2 humans interact
       if (i != j && humans[i].intersect(humans[j])) {
-        //Check if either of the humans are infected or sick
-        //If one of them is sick or infected and the other human is healthy
-        //Try to transmit the virus
-        if (humans[i].status == INFECTED || humans[i].status == SICK  && humans[j].status == HEALTHY) {
+        //Check if either of the humans are infected
+        if (humans[i].status == INFECTED || humans[i].status == SICK ) {
           humans[i].transmit(humans[j]);
         } 
-        else if (humans[j].status == INFECTED || humans[j].status == SICK && humans[i].status == HEALTHY) {
+        else if (humans[j].status == INFECTED || humans[j].status == SICK) {
           humans[j].transmit(humans[i]);
           //If true try to infect the other human
         }
       }
-      //The virus tries to make a human sick
-      //For now it works
-      //In the future compare it with when a human got infected
-      if (frameCount % 500 == 0)
-        virus.getSick(humans[i]);
+      virus.getSick(humans[i]);
+      humans[i].recover();
     }
   }
 }
