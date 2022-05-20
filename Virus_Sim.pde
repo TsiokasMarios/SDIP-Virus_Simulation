@@ -12,6 +12,10 @@ static final int RECOVERED = 3;
 
 Human[] humans;
 Virus virus;
+int healthyCounter;
+int infectedCounter;
+int sickCounter;
+int recoveredCounter;
 
 //Initialize the humans and virus
 void init() {
@@ -20,7 +24,6 @@ void init() {
     humans[i] = new Human();
   }
   virus = new Virus(10,20);
-
 }
 
 void setup() {
@@ -28,6 +31,10 @@ void setup() {
   background(0);
   size(800, 700);
   frameRate(60);
+  healthyCounter = 0;
+  infectedCounter = 0;
+  sickCounter = 0;
+  recoveredCounter = 0;
   init();
 }
 
@@ -41,25 +48,35 @@ void draw() {
     for (int j = 0; j < humans.length; j++) {
       //Check if 2 humans interact
       if (i != j && humans[i].intersect(humans[j])) {
-        //Check if either of the humans are infected or sick
-        //If one of them is sick or infected and the other human is healthy
-        //Try to transmit the virus
-        if ((humans[i].status == INFECTED || humans[i].status == SICK)  && humans[j].status == HEALTHY) {
+        //Check if either of the humans are infected
+        if (humans[i].status == INFECTED || humans[i].status == SICK ) {
           humans[i].transmit(humans[j]);
         } 
-        else if ((humans[j].status == INFECTED || humans[j].status == SICK) && humans[i].status == HEALTHY) {
+        else if (humans[j].status == INFECTED || humans[j].status == SICK) {
           humans[j].transmit(humans[i]);
           //If true try to infect the other human
         }
       }
-      //The virus tries to make a human sick
-      //For now it works
-      //In the future compare it with when a human got infected
-      if (frameCount % 500 == 0)
-        humans[i].recover();
-        virus.getSick(humans[i]);
+      if(frameCount % 500 == 0)
+      humans[i].recover();
+      virus.getSick(humans[i]);
+      if (humans[i].status == HEALTHY)
+          healthyCounter++;
+      else if(humans[i].status == INFECTED)
+          infectedCounter++;
+      else if(humans[i].status == SICK)
+          sickCounter++;
+      else if(humans[i].status == RECOVERED)
+          recoveredCounter++;
     }
   }
+  fill(200);
+  textSize(20);
+  text("Healthy: "+healthyCounter, 20, 20);
+  text("Infected: "+infectedCounter, 20, 40);
+  text("Sick: "+sickCounter, 20, 60);
+  text("Recovered: "+recoveredCounter, 20, 80);
+  
 }
 
 //Infect a random human upon click
