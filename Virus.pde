@@ -13,6 +13,8 @@ public class Virus{
     int rand = (int) random(humans.length);
     
     humans[rand].status = INFECTED;
+    infectedCounter++;
+    healthyCounter--;
     println("success");
   }
   
@@ -21,6 +23,8 @@ public class Virus{
     if (target.hygiene < virus.infectionRate){
       println(target.hygiene);
       target.status = INFECTED;
+      infectedCounter++;
+      healthyCounter--;
     }
   }
   
@@ -30,25 +34,24 @@ public class Virus{
       //If human is infected and their immune system strength
       
       if ((target.status == INFECTED) && (ageTarget.contains(target.age) )){
-        if (target.immuneSystem < strength + 0.2)
+        if (target.immuneSystem < strength + 0.2){
           target.status = SICK;
+          sickCounter++;
+          if (infectedCounter > 0)
+            infectedCounter--;
+        }
       }
-      
       else if (target.status == INFECTED && target.immuneSystem < strength ){
         target.status = SICK;
-      }
-      
-      
+        sickCounter++;
+        if (infectedCounter > 0)
+            infectedCounter--;
+      }      
     }
-    
-    
   }
   
   void goToHospital(Hospital hospital){
     //Will have a chance to go to the hospital if sick
     //Or to get vaccinated
   }
-  
-  
-  
 }

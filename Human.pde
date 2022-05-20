@@ -7,15 +7,14 @@ public class Human {
   float hygiene;
   int status;
   boolean vaccinated;
-  
   Human() {
     size = 10;
     location = new PVector(random(size/2, width-size/2), random(size/2, height-size/2));
     velocity = new PVector(random(-3, 3), random(-3, 3));
     status = HEALTHY;
-    age = (int) random(1,85);
-    hygiene = (int) random(0,100);
-    
+    age = (int) random(1, 85);
+    hygiene = (int) random(0, 100);
+
     //Immune system strength depends on a human's age
     //Younger ages and bigger ages have a weak immune system
     //Teens and adults have average immune systems
@@ -31,7 +30,6 @@ public class Human {
       immuneSystem = 0.2;
     else if (age > 80)
       immuneSystem = 0.1;
-    
   }
 
   void step() {
@@ -59,27 +57,27 @@ public class Human {
     if (target != this)
       virus.infect(target);
   }
-  
-  void recover(){
-    //Will try to recover depending on a formula
-     if(status == SICK){
-         if(random(1)< 0.3)
-           status = RECOVERED;
-       }
+
+  void recover() {
+    if (status == SICK) {
+      if (random(11) < 5) {
+        this.status = RECOVERED;
+        recoveredCounter++;
+        sickCounter--;
+      }
+    }
   }
+
 
   //Change their color depending on their status
   void display() {
     if (status == HEALTHY) {
       fill(green);
-    } 
-    else if (status == INFECTED){
+    } else if (status == INFECTED) {
       fill(yellow);
-    }
-    else if (status == SICK){
+    } else if (status == SICK) {
       fill(red);
-    }
-    else if (status == RECOVERED){
+    } else if (status == RECOVERED) {
       fill(blue);
     }
     noStroke();
