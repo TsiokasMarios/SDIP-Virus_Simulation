@@ -8,8 +8,6 @@ public class Human {
   int status;
   boolean vaccinated;
   
-
-  
   Human() {
     size = 10;
     location = new PVector(random(size/2, width-size/2), random(size/2, height-size/2));
@@ -37,7 +35,6 @@ public class Human {
   }
 
   void step() {
-
     location.add(velocity);
   }
 
