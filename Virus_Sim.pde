@@ -20,6 +20,7 @@ void init() {
     humans[i] = new Human();
   }
   virus = new Virus(10,20);
+
 }
 
 void setup() {
@@ -43,10 +44,10 @@ void draw() {
         //Check if either of the humans are infected or sick
         //If one of them is sick or infected and the other human is healthy
         //Try to transmit the virus
-        if (humans[i].status == INFECTED || humans[i].status == SICK  && humans[j].status == HEALTHY) {
+        if ((humans[i].status == INFECTED || humans[i].status == SICK)  && humans[j].status == HEALTHY) {
           humans[i].transmit(humans[j]);
         } 
-        else if (humans[j].status == INFECTED || humans[j].status == SICK && humans[i].status == HEALTHY) {
+        else if ((humans[j].status == INFECTED || humans[j].status == SICK) && humans[i].status == HEALTHY) {
           humans[j].transmit(humans[i]);
           //If true try to infect the other human
         }
@@ -55,8 +56,8 @@ void draw() {
       //For now it works
       //In the future compare it with when a human got infected
       if (frameCount % 500 == 0)
-        virus.getSick(humans[i]);
         humans[i].recover();
+        virus.getSick(humans[i]);
     }
   }
 }
