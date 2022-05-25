@@ -53,57 +53,28 @@ void setup() {
 void draw() {
   background(0);
   hospital.display();
-  //for (int i = 0; i < humans.length; i++) {
-  //  humans[i].step();
-  //  humans[i].passEdges();
-  //  humans[i].display();
-
-  //  for (int j = 0; j < humans.length; j++) {
-  //    //Check if 2 humans interact
-  //    if (i != j && humans[i].intersect(humans[j])) {
-  //      //Check if either of the humans are infected or sick
-  //      //If one of them is sick or infected and the other human is healthy
-  //      //Try to transmit the virus
-  //      if ((humans[i].status == INFECTED || humans[i].status == SICK)  && humans[j].status == HEALTHY) {
-  //        humans[i].transmit(humans[j]);
-  //      } else if ((humans[j].status == INFECTED || humans[j].status == SICK) && humans[i].status == HEALTHY) {
-  //        humans[j].transmit(humans[i]);
-  //        //If true try to infect the other human
-  //      }
-  //    }
-  //  }
-    
-  //  //virus.kill(humans[i],i);
-    
-  //  //The virus tries to make a human sick
-  //  //For now it works
-  //  //In the future compare it with when a human got infected
-  //  if (frameCount % 500 == 0) {
-  //    virus.getSick(humans[i]);
-  //  }
-  //  if (frameCount % 700 == 0) {
-  //    humans[i].recover();
-  //  }
-  //}
   
   //Arraylist attempt
-  for (int i = 0; i < humans.size(); i++) {
-    Human tempI = humans.get(i);
-    tempI.step();
-    tempI.passEdges();
-    tempI.display();
-
-    for (int j = 0; j < humans.size(); j++) {
-      Human tempJ = humans.get(j);
+  //Setting i < humans.size() - 1, 
+  //because once you check the final human you dont need to compare them against anyone
+  for (int i = 0; i < humans.size() - 1; i++) { 
+    Human humanI = humans.get(i); //Instead of using humans.get(i) whenever we need human[i]
+    humanI.step();
+    humanI.passEdges();
+    humanI.display();
+    
+    //initializing the inner j=i+1. That way it wouldnt check same pairs again
+    for (int j = i + 1; j < humans.size(); j++) {
+      Human humanJ = humans.get(j); //Instead of using humans.get(j) whenever we need human[j]
       //Check if 2 humans interact
-      if (i != j && tempI.intersect(tempJ)) {
+      if (i != j && humanI.intersect(humanJ)) {
         //Check if either of the humans are infected or sick
         //If one of them is sick or infected and the other human is healthy
         //Try to transmit the virus
-        if ((tempI.status == INFECTED || tempI.status == SICK)  && tempJ.status == HEALTHY) {
-          tempI.transmit(tempJ);
-        } else if ((tempJ.status == INFECTED || tempJ.status == SICK) && tempI.status == HEALTHY) {
-          tempJ.transmit(tempI);
+        if ((humanI.status == INFECTED || humanI.status == SICK)  && humanJ.status == HEALTHY) {
+          humanI.transmit(humanJ);
+        } else if ((humanJ.status == INFECTED || humanJ.status == SICK) && humanI.status == HEALTHY) {
+          humanJ.transmit(humanI);
           //If true try to infect the other human
         }
       }
@@ -114,14 +85,15 @@ void draw() {
     //The virus tries to make a human sick
     //For now it works
     //In the future compare it with when a human got infected
+    //So every human has a different "timer"
     if (frameCount % 500 == 0) {
-      virus.getSick(tempI);
+      virus.getSick(humanI);
     }
     if (frameCount % 700 == 0) {
-      tempI.recover();
+      humanI.recover();
     }
     
-    virus.kill(tempI);
+    virus.kill(humanI);
   }
   fill(200);
   textSize(20);

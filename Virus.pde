@@ -49,9 +49,9 @@ public class Virus {
     }
   }
 
-  void kill(Human target/*, int pos*/) {
+  void kill(Human target) {
     if (target.status == SICK) {
-      if (random(1, 101) < 3) {
+      if (random(11) < 0.01) {
         humans.remove(target);
         sickCounter--;
       }

@@ -9,7 +9,7 @@ public class Hospital{
   
   void display(){
     //Display the image of the hospital with x and y location and size 64x64
-    image(hospital,location.x,location.y,64,64);
+    image(hospital,location.x,location.y,128,128);
   }
 
 }
