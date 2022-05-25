@@ -67,6 +67,11 @@ public class Human {
       }
     }
   }
+  
+  void goToHospital(Hospital hospital){
+    //Will have a chance to go to the hospital if sick
+    //Or to get vaccinated
+  }
 
 
   //Change their color depending on their status
