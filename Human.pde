@@ -7,6 +7,9 @@ public class Human {
   float hygiene;
   int status;
   boolean vaccinated;
+  boolean headingToHospital;
+  float recoverStrength;
+  
   Human() {
     size = 10;
     location = new PVector(random(size/2, width-size/2), random(size/2, height-size/2));
@@ -14,6 +17,8 @@ public class Human {
     status = HEALTHY;
     age = (int) random(1, 85);
     hygiene = (int) random(0, 100);
+    headingToHospital = false;
+    recoverStrength = 5;
 
     //Immune system strength depends on a human's age
     //Younger ages and bigger ages have a weak immune system
@@ -60,7 +65,7 @@ public class Human {
 
   void recover() {
     if (status == SICK) {
-      if (random(11) < 5) {
+      if (random(11) < recoverStrength) {
         this.status = RECOVERED;
         recoveredCounter++;
         sickCounter--;
@@ -71,6 +76,22 @@ public class Human {
   void goToHospital(Hospital hospital){
     //Will have a chance to go to the hospital if sick
     //Or to get vaccinated
+    
+    if (status == SICK && random(11) < 0.05){
+      //Go towards hospital to have higher chance to recover
+      //Change ur velocity
+      headingToHospital = true;
+    }
+     else if (status == HEALTHY && random(11) < 0.07){
+      //Go towards hospital to get vaccinated
+      //Change ur velocity
+      headingToHospital = true;
+    }
+  }
+  
+  void leaveHospital(){
+    //Give them a random direction to go towards
+    velocity = new PVector(random(-3, 3), random(-3, 3));
   }
 
 
