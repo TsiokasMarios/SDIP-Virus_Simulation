@@ -15,17 +15,13 @@ int infectedCounter;
 int sickCounter;
 int recoveredCounter;
 
-//Human[] humans;
+
 ArrayList<Human> humans;
 Hospital hospital;
 Virus virus;
 
 //Initialize the humans and virus
 void init() {
-  //humans = new Human[200];
-  //for (int i = 0; i < humans.length; i++) {
-  //  humans[i] = new Human();
-  //}
   
   hospital = new Hospital();
   humans = new ArrayList();
@@ -35,7 +31,6 @@ void init() {
 
   virus = new Virus(10, 20);
 
-  //healthyCounter = humans.length;
   healthyCounter = humans.size();
   infectedCounter = 0;
   sickCounter = 0;
@@ -54,7 +49,6 @@ void draw() {
   background(0);
   hospital.display();
   
-  //Arraylist attempt
   //Setting i < humans.size() - 1, 
   //because once you check the final human you dont need to compare them against anyone
   for (int i = 0; i < humans.size() - 1; i++) { 
@@ -79,8 +73,6 @@ void draw() {
         }
       }
     }
-    
-   
     
     //The virus tries to make a human sick
     //For now it works
