@@ -10,27 +10,32 @@ static final int INFECTED = 1;
 static final int SICK = 2;
 static final int RECOVERED = 3;
 
-int healthyCounter;
-int infectedCounter;
-int sickCounter;
-int recoveredCounter;
+int healthyCounter; //How many humans are healthy
+int infectedCounter; //How many humans have been infected 
+int sickCounter; //How many humans are sick
+int recoveredCounter; //How many humans have recovered
 
 
 ArrayList<Human> humans;
 Hospital hospital;
 Virus virus;
+Vaccine vaccine;
 
 //Initialize the humans and virus
 void init() {
   
   hospital = new Hospital();
+  //Initialize the humans and put them in a list
   humans = new ArrayList();
-  for (int i = 0; i < 201; i++) {
+  for (int i = 0; i < 200; i++) {
     humans.add(new Human());
   }
-
+  //Create the virus with the targeted ages
   virus = new Virus(10, 20);
-
+  //Create the vaccine
+  vaccine = new Vaccine();
+  
+  //At the start everyone is healthy
   healthyCounter = humans.size();
   infectedCounter = 0;
   sickCounter = 0;
@@ -51,9 +56,8 @@ void draw() {
   
   //Setting i < humans.size() - 1, 
   //because once you check the final human you dont need to compare them against anyone
-  for (int i = 0; i < humans.size() - 1; i++) { 
+  for (int i = 0; i < humans.size(); i++) { 
     Human humanI = humans.get(i); //Instead of using humans.get(i) whenever we need human[i]
-    humanI.step();
     humanI.passEdges();
     humanI.display();
     
@@ -86,6 +90,9 @@ void draw() {
     }
     
     virus.kill(humanI);
+    humanI.goToHospital(hospital.location);
+    humanI.update();
+    hospital.hospitalize(humanI,vaccine);
   }
   fill(200);
   textSize(20);

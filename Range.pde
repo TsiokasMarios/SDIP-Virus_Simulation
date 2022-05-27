@@ -1,5 +1,6 @@
 public class Range
 {
+    //Helper class to for the virus to target certain age targets
     private int low;
     private int high;
 

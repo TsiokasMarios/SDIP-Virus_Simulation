@@ -1,19 +1,27 @@
 public class Human {
   PVector location;
   PVector velocity;
+  PVector acceleration;
+  
   int size;
   int age;
+  int status;
+  int maxSpeed;
+  
   float immuneSystem;
   float hygiene;
-  int status;
+  float recoverStrength;
+
   boolean vaccinated;
   boolean headingToHospital;
-  float recoverStrength;
-  
+
+
   Human() {
+    maxSpeed = 3; 
     size = 10;
     location = new PVector(random(size/2, width-size/2), random(size/2, height-size/2));
     velocity = new PVector(random(-3, 3), random(-3, 3));
+    acceleration = new PVector(0, 0);
     status = HEALTHY;
     age = (int) random(1, 85);
     hygiene = (int) random(0, 100);
@@ -37,62 +45,75 @@ public class Human {
       immuneSystem = 0.1;
   }
 
-  void step() {
-    location.add(velocity);
-  }
-
   boolean intersect(Human other) {
-    //Calculates the distance between 2 humans to see if they intersect, in other words if they interract with eachother
-    float distance;
-    boolean isIntersecting;
-
-    distance = dist(this.location.x, this.location.y, other.location.x, other.location.y);
-
+    //Find the distance between the two humans
+    float distance = dist(this.location.x, this.location.y, other.location.x, other.location.y);
+    
+    //If distance smaller than their size then they are intersecting
     if (distance < this.size + other.size) {
-      isIntersecting = true;
-    } else {
-      isIntersecting = false;
+      return true;
+    } 
+    else {
+      return false;
     }
-    return isIntersecting;
   }
 
   void transmit(Human target) {
     //Try to inffect the other human
-    //The formula calculation happens on the infect(target) method
     if (target != this)
       virus.infect(target);
   }
 
   void recover() {
-    if (status == SICK) {
-      if (random(11) < recoverStrength) {
-        this.status = RECOVERED;
-        recoveredCounter++;
-        sickCounter--;
+    if (status == SICK) { //If human is sick
+      if (random(11) < recoverStrength) { //And a random rolled number is smaller than their recovery strength
+        this.status = RECOVERED; //Update their status
+        recoveredCounter++; //Increase recovered counter
+        sickCounter--; //Decrease sick counter
       }
     }
   }
-  
-  void goToHospital(Hospital hospital){
-    //Will have a chance to go to the hospital if sick
-    //Or to get vaccinated
-    
-    if (status == SICK && random(11) < 0.05){
-      //Go towards hospital to have higher chance to recover
-      //Change ur velocity
+
+  void goToHospital(PVector hospital) {
+    //If they are sick and aren't heading to the hospital go there to get treated
+    if (status == SICK && random(11) < 0.02 && !headingToHospital) {
+      seek(hospital); //Go towards the hospital
       headingToHospital = true;
+      println("Heading to hospital to get recovered");
     }
-     else if (status == HEALTHY && random(11) < 0.07){
-      //Go towards hospital to get vaccinated
-      //Change ur velocity
+    //Otherwise go there to get vaccinated
+    else if (status == HEALTHY &&random(11) < 0.003  && !headingToHospital &&  !vaccinated) {
+      seek(hospital); //Go towards the hospital
       headingToHospital = true;
+      println("Heading to hospital to get vaccinated");
     }
   }
   
-  void leaveHospital(){
-    //Give them a random direction to go towards
-    velocity = new PVector(random(-3, 3), random(-3, 3));
+  void applyForce(PVector f){
+    acceleration.add(f);
   }
+  
+  void seek(PVector target){
+    //calculate the desired velocity
+    //target - location
+    PVector desiredV = PVector.sub(target,this.location);
+    //limit this to maxspeeed
+    desiredV.setMag(this.maxSpeed);
+    //calculate the sterring force
+    //as desired velocity - velocity
+    PVector steeringForce = PVector.sub(desiredV,this.velocity);
+    //apply the force
+    applyForce(steeringForce);
+  }
+  
+  void update() {
+    //Updates their velocity, location and acceleration
+    this.velocity.add(acceleration);
+    this.velocity.limit(this.maxSpeed);
+    this.location.add(this.velocity);
+    this.acceleration.set(0, 0);
+  }
+
 
 
   //Change their color depending on their status
