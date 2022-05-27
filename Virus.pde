@@ -59,7 +59,9 @@ public class Virus {
     if (target.status == SICK) {     //If they target is sick
       if (random(11) < lethality) { //If random rolled number is less than the lethality of the virus
         humans.remove(target); //Delete the human from the list, in other words kill them
+        deathCounter++; // Increase the death counter
         sickCounter--; //Decrease the sick counter
+        
       }
     }
   }

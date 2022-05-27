@@ -14,7 +14,7 @@ int healthyCounter; //How many humans are healthy
 int infectedCounter; //How many humans have been infected 
 int sickCounter; //How many humans are sick
 int recoveredCounter; //How many humans have recovered
-
+int deathCounter; // How many humans have died
 
 ArrayList<Human> humans;
 Hospital hospital;
@@ -40,6 +40,7 @@ void init() {
   infectedCounter = 0;
   sickCounter = 0;
   recoveredCounter = 0;
+  deathCounter = 0;
 }
 
 void setup() {
@@ -100,7 +101,8 @@ void draw() {
   text("Infected: "+infectedCounter, 20, 40);
   text("Sick: "+sickCounter, 20, 60);
   text("Recovered: "+recoveredCounter, 20, 80);
-  text("Frame: " + frameCount, 20, 100);
+  text("Death Toll: "+deathCounter, 20, 100);
+  text("Frame: " + frameCount, 20, 120);
 }
 
 //Infect a random human upon click
