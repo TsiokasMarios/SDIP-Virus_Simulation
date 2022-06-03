@@ -66,7 +66,8 @@ public class Human {
 
   void recover() {
     if (status == SICK) { //If human is sick
-      if (random(11) < recoverStrength) { //And a random rolled number is smaller than their recovery strength
+    //If random number is smaller than their recovery strength
+      if (random(11) < recoverStrength) { 
         this.status = RECOVERED; //Update their status
         recoveredCounter++; //Increase recovered counter
         sickCounter--; //Decrease sick counter

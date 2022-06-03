@@ -1,3 +1,4 @@
+import g4p_controls.*;
 //Colors
 final int green = color(57, 227, 64);
 final int red = color(237, 5, 9);
@@ -22,7 +23,7 @@ Virus virus;
 Vaccine vaccine;
 
 //Initialize the humans and virus
-void init() {
+public void init() {
   
   hospital = new Hospital();
   //Initialize the humans and put them in a list
@@ -46,9 +47,17 @@ void init() {
 void setup() {
   surface.setResizable(true);
   background(0);
-  size(800, 700);
+  size(800, 700, JAVA2D);
+  createGUI();
+  customGUI();
   frameRate(60);
   init();
+}
+
+//Use this method to add additional statements
+//to customize the GUI controls
+public void customGUI(){
+
 }
 
 void draw() {

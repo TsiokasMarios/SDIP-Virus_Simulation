@@ -21,9 +21,9 @@ public class Hospital {
 
   void hospitalize(Human human, Vaccine vaccine) {
     float distance = dist(this.location.x, this.location.y, human.location.x, human.location.y);
-    
     //Check if human is close to the hospital
-    //Also check if they are heading to the hospital so humans randomly passing it dont get affected
+    //Also check if they are heading to the hospital 
+    //so humans randomly passing it dont get affected
     if (distance < this.SIZE + human.size && human.headingToHospital) {
       //If they are healthy get vaccinated
       if (human.status == HEALTHY) {
