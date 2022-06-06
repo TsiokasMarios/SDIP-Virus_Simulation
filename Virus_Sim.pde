@@ -1,4 +1,7 @@
 import g4p_controls.*;
+//To work you need to download the g4p library
+//Tools -> libraries -> search for g4p then install
+
 //Colors
 final int green = color(57, 227, 64);
 final int red = color(237, 5, 9);
@@ -17,22 +20,32 @@ int sickCounter; //How many humans are sick
 int recoveredCounter; //How many humans have recovered
 int deathCounter; // How many humans have died
 
+//Get age targets from slider
+int min;
+int max;
+
 ArrayList<Human> humans;
 Hospital hospital;
 Virus virus;
 Vaccine vaccine;
 
-//Initialize the humans and virus
+GWindow winAWT = null;
+
+//Initialize the humans, virus and counters
 public void init() {
+  
+  createAWTwindow();
   
   hospital = new Hospital();
   //Initialize the humans and put them in a list
   humans = new ArrayList();
-  for (int i = 0; i < 200; i++) {
-    humans.add(new Human());
+  
+  for (int i = 0; i < Number_of_humans.getValueI(); i++) {
+    humans.add(new Human(human_recovery_strength.getValueI()));
   }
+  
   //Create the virus with the targeted ages
-  virus = new Virus(10, 20);
+  virus = new Virus(min,max);
   //Create the vaccine
   vaccine = new Vaccine();
   
@@ -60,6 +73,18 @@ public void customGUI(){
 
 }
 
+void createAWTwindow() {
+  winAWT = GWindow.getWindow(this, "Java AWT Window (JAVA2D)", 0, 320, 300, 300, JAVA2D);
+  winAWT.setActionOnClose(G4P.HIDE_WINDOW);
+  winAWT.addDrawHandler(this, "win_awt_draw");
+}
+
+void win_awt_draw(PApplet appc, GWinData data) {
+  appc.fill(255);
+  appc.textSize(20);
+  appc.text("This is a new window",20,20);
+}
+
 void draw() {
   background(0);
   hospital.display();
@@ -85,6 +110,9 @@ void draw() {
           humanJ.transmit(humanI);
           //If true try to infect the other human
         }
+        
+        //If they are interesecting try to breed them
+        humanI.breed(humanJ);
       }
     }
     

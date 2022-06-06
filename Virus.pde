@@ -1,16 +1,19 @@
 public class Virus {
   //How infectious am I
-  float infectionRate = 20;
+  float infectionRate = infection_rate_slide.getValueF();
   //How lethal am I
-  float lethality = 0.01;
+  float lethality = virus_lethality.getValueF();
   //How strong am I? In other words, how likely am I to make a human sick
-  float strength = 0.3;
+  float strength = virus_strength.getValueF();
   //Who will you be more effective against
   Range ageTarget; 
 
 
   Virus (int lowerRange, int higherRange) {
     ageTarget = new Range(lowerRange, higherRange);
+    println("virus infection rate = " + infectionRate);
+    println("virus lethality = " + lethality);
+    println("virus strength = " + strength);
   }
 
   void randomInfect() {
@@ -61,7 +64,6 @@ public class Virus {
         humans.remove(target); //Delete the human from the list, in other words kill them
         deathCounter++; // Increase the death counter
         sickCounter--; //Decrease the sick counter
-        
       }
     }
   }

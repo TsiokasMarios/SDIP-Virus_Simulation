@@ -43,6 +43,16 @@ public void restart_sim_button(GButton source, GEvent event) { //_CODE_:Sim_Rest
   init();
 } //_CODE_:Sim_Restart:558488:
 
+public void min_age_target_virus(GSlider source, GEvent event) { //_CODE_:min_age_target:737985:
+  println("min_age_target - GSlider >> GEvent." + event + " @ " + millis());
+  min = source.getValueI();
+} //_CODE_:min_age_target:737985:
+
+public void max_age_target_virus(GSlider source, GEvent event) { //_CODE_:max_age_target:692700:
+  println("max_age_target - GSlider >> GEvent." + event + " @ " + millis());
+  max = source.getValueI();
+} //_CODE_:max_age_target:692700:
+
 
 
 // Create all the GUI controls. 
@@ -52,7 +62,7 @@ public void createGUI(){
   G4P.setGlobalColorScheme(GCScheme.BLUE_SCHEME);
   G4P.setMouseOverEnabled(false);
   surface.setTitle("Sketch Window");
-  window1 = GWindow.getWindow(this, "Window title", 0, 0, 360, 360, JAVA2D);
+  window1 = GWindow.getWindow(this, "Window title", 0, 0, 450, 300, JAVA2D);
   window1.noLoop();
   window1.setActionOnClose(G4P.KEEP_OPEN);
   window1.addDrawHandler(this, "win_draw1");
@@ -64,7 +74,7 @@ public void createGUI(){
   Number_of_humans.setNumberFormat(G4P.INTEGER, 0);
   Number_of_humans.setOpaque(false);
   Number_of_humans.addEventHandler(this, "number_of_humans_slider");
-  label2 = new GLabel(window1, 0, 130, 90, 30);
+  label2 = new GLabel(window1, 0, 130, 110, 30);
   label2.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   label2.setText("Number of humans");
   label2.setOpaque(false);
@@ -75,9 +85,9 @@ public void createGUI(){
   human_recovery_strength = new GSlider(window1, 0, 60, 110, 50, 10.0);
   human_recovery_strength.setShowValue(true);
   human_recovery_strength.setShowLimits(true);
-  human_recovery_strength.setLimits(5, 1, 10);
+  human_recovery_strength.setLimits(5.0, 1.0, 10.0);
   human_recovery_strength.setShowTicks(true);
-  human_recovery_strength.setNumberFormat(G4P.INTEGER, 0);
+  human_recovery_strength.setNumberFormat(G4P.DECIMAL, 0);
   human_recovery_strength.setOpaque(false);
   human_recovery_strength.addEventHandler(this, "recovery_strength_slider");
   label3 = new GLabel(window1, 0, 30, 100, 30);
@@ -88,15 +98,15 @@ public void createGUI(){
   label7.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   label7.setText("Virus settings");
   label7.setOpaque(false);
-  label4 = new GLabel(window1, 160, 30, 100, 30);
+  label4 = new GLabel(window1, 160, 30, 120, 30);
   label4.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   label4.setText("Infection rate");
   label4.setOpaque(false);
-  label5 = new GLabel(window1, 160, 110, 100, 30);
+  label5 = new GLabel(window1, 160, 110, 120, 30);
   label5.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   label5.setText("Virus strength");
   label5.setOpaque(false);
-  label6 = new GLabel(window1, 160, 190, 100, 30);
+  label6 = new GLabel(window1, 160, 190, 120, 30);
   label6.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   label6.setText("Lethality");
   label6.setOpaque(false);
@@ -124,9 +134,37 @@ public void createGUI(){
   virus_lethality.setNumberFormat(G4P.DECIMAL, 2);
   virus_lethality.setOpaque(false);
   virus_lethality.addEventHandler(this, "virus_lethality_slider");
-  Sim_Restart = new GButton(window1, 0, 330, 80, 30);
+  Sim_Restart = new GButton(window1, 0, 270, 80, 30);
   Sim_Restart.setText("RESTART");
   Sim_Restart.addEventHandler(this, "restart_sim_button");
+  label8 = new GLabel(window1, 320, 0, 109, 16);
+  label8.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  label8.setText("Change age target");
+  label8.setOpaque(false);
+  min_age_target = new GSlider(window1, 320, 60, 121, 47, 10.0);
+  min_age_target.setShowValue(true);
+  min_age_target.setShowLimits(true);
+  min_age_target.setLimits(10, 1, 85);
+  min_age_target.setShowTicks(true);
+  min_age_target.setNumberFormat(G4P.INTEGER, 0);
+  min_age_target.setOpaque(false);
+  min_age_target.addEventHandler(this, "min_age_target_virus");
+  max_age_target = new GSlider(window1, 320, 140, 120, 47, 10.0);
+  max_age_target.setShowValue(true);
+  max_age_target.setShowLimits(true);
+  max_age_target.setLimits(20, 1, 85);
+  max_age_target.setShowTicks(true);
+  max_age_target.setNumberFormat(G4P.INTEGER, 0);
+  max_age_target.setOpaque(false);
+  max_age_target.addEventHandler(this, "max_age_target_virus");
+  label9 = new GLabel(window1, 320, 30, 90, 30);
+  label9.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  label9.setText("Min age");
+  label9.setOpaque(false);
+  label10 = new GLabel(window1, 320, 110, 90, 30);
+  label10.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  label10.setText("Max age");
+  label10.setOpaque(false);
   window1.loop();
 }
 
@@ -146,3 +184,8 @@ GSlider infection_rate_slide;
 GSlider virus_strength; 
 GSlider virus_lethality; 
 GButton Sim_Restart; 
+GLabel label8; 
+GSlider min_age_target; 
+GSlider max_age_target; 
+GLabel label9; 
+GLabel label10; 

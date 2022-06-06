@@ -16,7 +16,7 @@ public class Human {
   boolean headingToHospital;
 
 
-  Human() {
+  Human(float RecStrength) {
     maxSpeed = 3; 
     size = 10;
     location = new PVector(random(size/2, width-size/2), random(size/2, height-size/2));
@@ -26,7 +26,7 @@ public class Human {
     age = (int) random(1, 85);
     hygiene = (int) random(0, 100);
     headingToHospital = false;
-    recoverStrength = 5;
+    recoverStrength = RecStrength;
 
     //Immune system strength depends on a human's age
     //Younger ages and bigger ages have a weak immune system
@@ -43,6 +43,20 @@ public class Human {
       immuneSystem = 0.2;
     else if (age > 80)
       immuneSystem = 0.1;
+  }
+  
+  Human(float RecStrength,float ImuneSystemStrength) {
+    maxSpeed = 3; 
+    size = 10;
+    location = new PVector(random(size/2, width-size/2), random(size/2, height-size/2));
+    velocity = new PVector(random(-3, 3), random(-3, 3));
+    acceleration = new PVector(0, 0);
+    status = HEALTHY;
+    age = (int) random(1, 85);
+    hygiene = (int) random(0, 100);
+    headingToHospital = false;
+    recoverStrength = RecStrength;
+    immuneSystem = ImuneSystemStrength;
   }
 
   boolean intersect(Human other) {
@@ -80,13 +94,39 @@ public class Human {
     if (status == SICK && random(11) < 0.02 && !headingToHospital) {
       seek(hospital); //Go towards the hospital
       headingToHospital = true;
-      println("Heading to hospital to get recovered");
+      //println("Heading to hospital to get recovered");
     }
     //Otherwise go there to get vaccinated
     else if (status == HEALTHY &&random(11) < 0.003  && !headingToHospital &&  !vaccinated) {
       seek(hospital); //Go towards the hospital
       headingToHospital = true;
-      println("Heading to hospital to get vaccinated");
+      //println("Heading to hospital to get vaccinated");
+    }
+  }
+  
+  void breed(Human parent2){
+    //If the population is not full
+    if (humans.size() < Number_of_humans.getValueI()){
+      //Have a random chance to create a child human
+      //With the average imune system strength of the parents
+      //And a chance to be better or worse
+      float avgImuneSystem = (this.immuneSystem + parent2.immuneSystem) / 2;
+      
+      //If either of the parents have recovered from the virus before
+      //The child will have a chance to be imune as well
+      if (this.status == RECOVERED || parent2.status == RECOVERED){
+        avgImuneSystem = 1;
+      }
+      
+      else if (random(1) < 0.5){ //Chance for child to have a stronger immune system
+        avgImuneSystem += 0.2;
+      }
+      else { //Chance for child to have a weaker immune system
+        avgImuneSystem -= 0.2;
+      }
+      
+      humans.add(new Human(human_recovery_strength.getValueI(),avgImuneSystem));
+      healthyCounter++;
     }
   }
   
