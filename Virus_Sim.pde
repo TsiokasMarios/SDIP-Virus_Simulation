@@ -29,13 +29,10 @@ Hospital hospital;
 Virus virus;
 Vaccine vaccine;
 
-GWindow winAWT = null;
 
 //Initialize the humans, virus and counters
 public void init() {
-  
-  createAWTwindow();
-  
+   
   hospital = new Hospital();
   //Initialize the humans and put them in a list
   humans = new ArrayList();
@@ -62,27 +59,8 @@ void setup() {
   background(0);
   size(800, 700, JAVA2D);
   createGUI();
-  customGUI();
   frameRate(60);
   init();
-}
-
-//Use this method to add additional statements
-//to customize the GUI controls
-public void customGUI(){
-
-}
-
-void createAWTwindow() {
-  winAWT = GWindow.getWindow(this, "Java AWT Window (JAVA2D)", 0, 320, 300, 300, JAVA2D);
-  winAWT.setActionOnClose(G4P.HIDE_WINDOW);
-  winAWT.addDrawHandler(this, "win_awt_draw");
-}
-
-void win_awt_draw(PApplet appc, GWinData data) {
-  appc.fill(255);
-  appc.textSize(20);
-  appc.text("This is a new window",20,20);
 }
 
 void draw() {
@@ -126,10 +104,15 @@ void draw() {
     if (frameCount % 700 == 0) {
       humanI.recover();
     }
+    if (frameCount % 365 == 0){
+       //Every 365 frames make them older
+       humanI.updateAge(); 
+    }
     
     virus.kill(humanI);
     humanI.goToHospital(hospital.location);
     humanI.update();
+
     hospital.hospitalize(humanI,vaccine);
   }
   fill(200);
